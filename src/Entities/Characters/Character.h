@@ -11,8 +11,7 @@ namespace Entities {
 
         public:
             Character();
-            Character(int x, int y);
-            Character(int x, int y, sf::Vector2f v);
+            Character(Math::Vect pos, Math::Vect vel);
             ~Character();
             void run(float dt);
         };

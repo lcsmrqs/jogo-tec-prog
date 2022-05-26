@@ -2,18 +2,19 @@
 
 #include <SFML/Graphics/RectangleShape.hpp>
 #include "../Ent.h"
+#include "../Math/Vect.h"
 
 namespace Entities {
     class Entity : public Ent {
     protected:
-        sf::Vector2f position;
+        Math::Vect position;
+        Math::Vect velocity;
         sf::RectangleShape sprite;
 
     public:
-        sf::Vector2f velocity;
         Entity();
 
-        Entity(int x, int y, sf::Vector2f v = sf::Vector2f(0, 0));
+        Entity(Math::Vect pos, Math::Vect vel);
 
         virtual ~Entity();
 

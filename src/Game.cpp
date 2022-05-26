@@ -3,7 +3,7 @@
 
 Game::Game() {
     graphics = GraphicsManager::getInstance();
-    playerChar = new Character(0, 0, sf::Vector2f(750.0f, 0.0f));
+    playerChar = new Character(Math::Vect(0.f, 0.f), Math::Vect(750.f, 0.f));
     run();
 }
 

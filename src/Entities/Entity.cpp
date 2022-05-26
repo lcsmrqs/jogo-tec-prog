@@ -1,4 +1,4 @@
-//#include <iostream>
+#include <iostream>
 #include "Entity.h"
 #include "../Managers/GraphicsManager.h"
 
@@ -11,21 +11,21 @@ Entity::Entity() :
     sprite.setFillColor(sf::Color::Red);
 }
 
-Entity::Entity(int x, int y, sf::Vector2f v) :
-        Ent(), sprite(sf::Vector2f(16, 16)), position(x, y), velocity(v)
+Entity::Entity(Math::Vect pos, Math::Vect vel) :
+        Ent(), sprite(sf::Vector2f(16, 16)), position(pos), velocity(vel)
 {
     sprite.setFillColor(sf::Color::Red);
-    sprite.setPosition(x, y);
+    sprite.setPosition(position.getX(), position.getY());
 }
 
 Entity::~Entity() {}
 
 void Entity::draw() {
-//    std::cout << position.x << " " << position.y << std::endl;
     GraphicsManager *graphics = GraphicsManager::getInstance();
 
     sf::Transform transform;
-    transform.translate(position);
+    transform.translate(sf::Vector2f(position.getX(), position.getY()));
+
     sf::RenderStates states(transform);
 
     graphics->getWindow()->draw(sprite, states);

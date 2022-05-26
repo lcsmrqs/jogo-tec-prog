@@ -33,6 +33,8 @@ void GraphicsManager::processEvents() {
     while(window.pollEvent(event))
         if(event.type == sf::Event::Closed)
             window.close();
+
+    // notificar eventmanager
 }
 
 sf::RenderWindow *GraphicsManager::getWindow() {
