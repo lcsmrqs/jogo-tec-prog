@@ -1,5 +1,6 @@
-#include <SFML/Window/Event.hpp>
 #include "GraphicsManager.h"
+
+#include <iostream>
 
 using namespace Managers;
 
@@ -9,42 +10,61 @@ GraphicsManager::GraphicsManager() :
         window(sf::VideoMode(WINDOW_WIDTH, WINDOW_HEIGHT), "Game"),
         clock()
 {
+    eventManager = EventManager::getInstance();
+    window.setFramerateLimit(30);
+    window.setKeyRepeatEnabled(false);
 }
 
-GraphicsManager *GraphicsManager::getInstance() {
+GraphicsManager::~GraphicsManager()
+{
+    delete eventManager;
+}
+
+GraphicsManager *GraphicsManager::getInstance()
+{
     if(!instance) instance = new GraphicsManager();
     return instance;
 }
 
-bool GraphicsManager::isWindowOpen() const {
+bool GraphicsManager::isWindowOpen() const
+{
     return window.isOpen();
 }
 
-void GraphicsManager::clearWindow() {
+void GraphicsManager::clearWindow()
+{
     window.clear();
 }
 
-void GraphicsManager::draw() {
+void GraphicsManager::draw()
+{
     window.display();
 }
 
-void GraphicsManager::processEvents() {
+void GraphicsManager::processEvents()
+{
     sf::Event event;
     while(window.pollEvent(event))
-        if(event.type == sf::Event::Closed)
+    {
+        if (event.type == sf::Event::Closed)
             window.close();
-
-    // notificar eventmanager
+        else if (event.type == sf::Event::KeyPressed && eventManager)
+        {
+            eventManager->keyPressed((EventManager::Key) event.key.code);
+        }
+        else if (event.type == sf::Event::KeyReleased && eventManager)
+        {
+            eventManager->keyReleased((EventManager::Key) event.key.code);
+        }
+    }
 }
 
-sf::RenderWindow *GraphicsManager::getWindow() {
+sf::RenderWindow *GraphicsManager::getWindow()
+{
     return &window;
 }
 
-void GraphicsManager::resetClock() {
-    clock.restart();
-}
-
-float GraphicsManager::getDt() {
-    return clock.getElapsedTime().asSeconds();
+float GraphicsManager::resetClock()
+{
+    return clock.restart().asSeconds();
 }

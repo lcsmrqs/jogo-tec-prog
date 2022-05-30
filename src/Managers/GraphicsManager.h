@@ -1,10 +1,13 @@
 #pragma once
 
-#define WINDOW_WIDTH 284
-#define WINDOW_HEIGHT 160
+//#define WINDOW_WIDTH 284
+//#define WINDOW_HEIGHT 160
 
+#define WINDOW_WIDTH 800
+#define WINDOW_HEIGHT 600
+
+#include "EventManager.h"
 #include <SFML/Graphics.hpp>
-#include "../Ent.h"
 
 namespace Managers {
     class GraphicsManager
@@ -12,11 +15,13 @@ namespace Managers {
     private:
         GraphicsManager();
         static GraphicsManager *instance;
+
         sf::Clock clock;
         sf::RenderWindow window;
+        EventManager *eventManager;
 
     public:
-        // TODO: destructor?
+        ~GraphicsManager();
         static GraphicsManager* getInstance();
 
         bool isWindowOpen() const;
@@ -24,10 +29,8 @@ namespace Managers {
         void draw();
         void processEvents();
 
-        void resetClock();
-        float getDt();
+        float resetClock();
 
         sf::RenderWindow* getWindow();
-
     };
 } // Managers

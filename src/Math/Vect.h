@@ -16,9 +16,14 @@ namespace Math {
         const float getY() const;
         void setY(const float _y);
 
-        void operator*=(float a);
-        Vect operator*(float a);
+        float getMagnitude();
+        Vect normalize();
 
+        Vect operator-(const Vect v);
+        Vect operator*(const float a);
+        Vect operator+(Vect v);
         void operator+=(Vect v);
+        void operator*=(const float a);
+        void operator/=(const float a);
     };
 }

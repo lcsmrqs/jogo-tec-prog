@@ -6,21 +6,29 @@ using namespace Entities;
 using Managers::GraphicsManager;
 
 Entity::Entity() :
-        Ent(), sprite(sf::Vector2f(16, 16)), position(0, 0), velocity(0, 0)
+Ent(),
+sprite(sf::Vector2f(16, 16)),
+position(0.0f, 0.0f),
+velocity(0.0f, 0.0f)
 {
-    sprite.setFillColor(sf::Color::Red);
+    sprite.setFillColor(sf::Color::White);
+    sprite.setOrigin(8.0f, 8.0f);
 }
 
-Entity::Entity(Math::Vect pos, Math::Vect vel) :
-        Ent(), sprite(sf::Vector2f(16, 16)), position(pos), velocity(vel)
+Entity::Entity(Vect pos, Vect vel) :
+Ent(),
+sprite(sf::Vector2f(16, 16)),
+position(pos),
+velocity(vel)
 {
-    sprite.setFillColor(sf::Color::Red);
-    sprite.setPosition(position.getX(), position.getY());
+    sprite.setFillColor(sf::Color::White);
+    sprite.setOrigin(8.0f, 8.0f);
 }
 
 Entity::~Entity() {}
 
-void Entity::draw() {
+void Entity::draw()
+{
     GraphicsManager *graphics = GraphicsManager::getInstance();
 
     sf::Transform transform;
@@ -29,4 +37,22 @@ void Entity::draw() {
     sf::RenderStates states(transform);
 
     graphics->getWindow()->draw(sprite, states);
+}
+
+Vect Entity::getPosition() const
+{
+    return position;
+}
+
+void Entity::setPosition(const Vect p)
+{
+    position = p;
+}
+
+Vect Entity::getSize()
+{
+    float x = sprite.getSize().x;
+    float y = sprite.getSize().y;
+
+    return Vect(x, y);
 }

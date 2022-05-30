@@ -1,4 +1,6 @@
 #include "Vect.h"
+#include <iostream>
+#include <cmath>
 
 using namespace Math;
 
@@ -24,16 +26,43 @@ void Vect::setY(const float _y) {
     y = _y;
 }
 
-void Vect::operator*=(float a) {
-    x *= a;
-    y *= a;
+float Vect::getMagnitude() {
+    return sqrt(powf(x, 2) + powf(y, 2));
 }
 
-Vect Vect::operator*(float a) {
+Vect Vect::normalize() {
+    Vect normalized(x, y);
+    float magnitude = getMagnitude();
+
+    if(magnitude > 0.0f)
+        normalized /= magnitude;
+
+    return normalized;
+}
+
+Vect Vect::operator-(const Vect v) {
+    return Vect(x - v.getX(), y - v.getY());
+}
+
+Vect Vect::operator*(const float a) {
     return Vect(x * a, y * a);
 }
 
 void Vect::operator+=(Vect v) {
     x += v.x;
     y += v.y;
+}
+
+void Vect::operator*=(const float a) {
+    x *= a;
+    y *= a;
+}
+
+void Vect::operator/=(const float a) {
+    x /= a;
+    y /= a;
+}
+
+Vect Vect::operator+(Vect v) {
+    return Vect(x + v.getX(), y + v.getY());
 }

@@ -7,4 +7,3 @@ find_package(SFML COMPONENTS graphics)
 add_subdirectory(src)
 
 target_link_libraries(resgate_emilia sfml-graphics)
-

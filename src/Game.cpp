@@ -2,25 +2,55 @@
 #include <iostream>
 
 Game::Game() {
-    graphics = GraphicsManager::getInstance();
-    playerChar = new Character(Math::Vect(0.f, 0.f), Math::Vect(750.f, 0.f));
+    graphicsManager = GraphicsManager::getInstance();
+    collisionManager = new CollisionManager();
+
+    saci = new Saci(Vect(250.0f, 200.0f), Vect(0.0f, 0.0f));
+
+    enemy = new Enemy(saci);
+    enemy->setPosition(Vect(50.0f, 50.0f));
+
+    ground = new Ground;
+
     run();
 }
 
 Game::~Game() {
-    delete playerChar;
+    delete saci;
+    delete enemy;
+
+    delete collisionManager;
+    delete graphicsManager;
+
 }
 
 void Game::run() {
-    while(graphics->isWindowOpen())
+    float dt;
+    while(graphicsManager->isWindowOpen())
     {
-        graphics->processEvents();
-        graphics->clearWindow();
+        dt = graphicsManager->resetClock();
+        graphicsManager->processEvents();
 
-        playerChar->run(graphics->getDt());
-        playerChar->draw();
+        // run entities
+        saci->run(dt);
+        enemy->run(dt);
+        ground->run(dt);
 
-        graphics->draw();
-        graphics->resetClock();
+        // check collisions
+        collisionManager->checkCollision(saci, enemy);
+
+        if(collisionManager->checkCollision(saci, ground))
+            collisionManager->checkCollision(saci, enemy);
+
+        if(collisionManager->checkCollision(enemy, ground))
+            collisionManager->checkCollision(saci, enemy);
+
+        // draw entities
+        graphicsManager->clearWindow();
+        enemy->draw();
+        saci->draw();
+        ground->draw();
+
+        graphicsManager->draw();
     }
 }
