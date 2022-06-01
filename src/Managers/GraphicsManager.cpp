@@ -59,7 +59,7 @@ void GraphicsManager::processEvents()
     }
 }
 
-sf::RenderWindow *GraphicsManager::getWindow()
+sf::RenderWindow* GraphicsManager::getWindow()
 {
     return &window;
 }

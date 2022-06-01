@@ -4,7 +4,7 @@
 //#define WINDOW_HEIGHT 160
 
 #define WINDOW_WIDTH 800
-#define WINDOW_HEIGHT 600
+#define WINDOW_HEIGHT 450
 
 #include "EventManager.h"
 #include <SFML/Graphics.hpp>
@@ -33,4 +33,4 @@ namespace Managers {
 
         sf::RenderWindow* getWindow();
     };
-} // Managers
+}

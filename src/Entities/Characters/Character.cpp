@@ -4,9 +4,9 @@
 using Managers::GraphicsManager;
 using namespace Entities::Characters;
 
-Character::Character() : Entity() {}
+Character::Character() : Entity() { }
 
-Character::Character(Vect pos, Vect vel) : Entity(pos, vel) {}
+Character::Character(Vect _size, Vect pos, Vect vel) : Entity(_size, pos, vel) {}
 
 Character::~Character() {}
 
@@ -22,15 +22,19 @@ void Character::setHealthPoints(const int hp)
 
 void Character::run(float dt)
 {
-    if (position.getX() < 0 && velocity.getX() < 0) // check ranges
-    {
-        position.setX(0);
-        velocity *= -1.f;
-    } else if (position.getX() > (WINDOW_WIDTH - sprite.getSize().x) && velocity.getX() > 0) {
-        position.setX(WINDOW_WIDTH - sprite.getSize().x);
-        velocity *= -1.f;
-    }
-
-    Vect ds = velocity * dt; // displacement
-    position += ds;
+    velocity.setY(velocity.getY() + (981.0f * dt));
 }
+
+void Character::collide(Entity *e, Vect direction, float push)
+{
+    Entity::collide(e, direction, push);
+    onCollision(direction);
+}
+
+void Character::onCollision(Vect direction)
+{
+    if(direction.getY() != 0.0f)
+        velocity.setY(0.0f);
+}
+
+

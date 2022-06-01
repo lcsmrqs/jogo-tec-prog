@@ -1,4 +1,5 @@
 #include "Enemy.h"
+#include <cmath>
 
 #define SPEED 90.0f
 
@@ -8,39 +9,53 @@ Enemy::Enemy(Player *_pPlayer) :
 Character(),
 pPlayer(_pPlayer)
 {
-    id = 2;
-    sprite.setSize(sf::Vector2f(32.0f, 32.0f));
-    sprite.setOrigin(16.0f, 16.f);
-    sprite.setFillColor(sf::Color::Yellow);
+    init();
 }
 
-Enemy::~Enemy() {}
+Enemy::Enemy(Vect _size, Vect pos, Vect vel, Player *_pPlayer) :
+Character(_size, pos, vel),
+pPlayer(_pPlayer)
+{
+    init();
+}
+
+void Enemy::init()
+{
+    texture = new sf::Texture;
+    if(texture->loadFromFile("../../assets/characters/enemies/curupira.png"))
+    {
+        sprite.setTexture(*texture, true);
+        sprite.setOrigin(16.0f, 23.5f);
+    }
+}
+
+Enemy::~Enemy()
+{
+    delete texture;
+}
 
 void Enemy::run(float dt)
 {
+    Character::run(dt);
+
     if(pPlayer)
     {
-        velocity *= 0.0f;
         Vect diff = pPlayer->getPosition() - position;
+        float magnitude = diff.getMagnitude();
 
-        if(diff.getMagnitude() > pPlayer->getSize().getMagnitude())
+        if(magnitude < 300.0f)
         {
-            if(diff.getMagnitude() > 1.0f)
-                diff = diff.normalize();
+            if (magnitude >= (fmaxf(pPlayer->getSize().getX(), pPlayer->getSize().getY()) + fmaxf(getSize().getX(), getSize().getY())) / 2) {
+                if (magnitude > 1.0f)
+                    diff = diff.normalize();
 
-            velocity = diff * SPEED;
+                velocity.setX(fmin(fmax(-98.0f, velocity.getX() + SPEED * diff.getX()), 98.0f));
+            }
         }
 
-        Vect ds = velocity * dt;
-        position += ds;
+        velocity.setX(velocity.getX() * 0.9f);
     }
-}
 
-void Enemy::collide(Entity *e, Vect direction)
-{
-    if(e->getId() == 1)
-    {
-        Vect ds = direction * -0.5f;
-        e->setPosition(e->getPosition() + ds);
-    }
+    Vect ds = velocity * dt;
+    position += ds;
 }

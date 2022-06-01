@@ -9,13 +9,14 @@ namespace Entities {
         {
         protected:
             Player *pPlayer;
+            void init();
 
         public:
             Enemy(Player *_pPlayer = NULL);
+            Enemy(Vect size, Vect pos, Vect vel = Vect(0.0f, 0.0f), Player *_pPlayer = NULL);
             ~Enemy();
 
             virtual void run(float dt);
-            void collide(Entity *e, Vect direction);
         };
     }
 }

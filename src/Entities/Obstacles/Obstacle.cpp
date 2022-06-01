@@ -2,16 +2,31 @@
 
 using namespace Entities::Obstacles;
 
-Obstacle::Obstacle() : Entity() {}
-
-Obstacle::~Obstacle() {}
-
-void Obstacle::collide(Entities::Entity *e, Vect direction)
+Obstacle::Obstacle() :
+Entity()
 {
-    if(e->getId() == 1 || e->getId() == 2)
+    init();
+}
+
+Obstacle::Obstacle(Vect _size, Vect pos, Vect vel) :
+Entity(_size, pos, vel)
+{
+    init();
+}
+
+void Obstacle::init()
+{
+    texture = new sf::Texture;
+    if(texture->loadFromFile("../../assets/obstacles/platform-mud.png"))
     {
-        e->setPosition(e->getPosition() - direction);
+        sprite.setTexture(*texture, true);
+        sprite.setOrigin(16, 16);
     }
+}
+
+Obstacle::~Obstacle()
+{
+    delete texture;
 }
 
 void Obstacle::run(float dt) {}

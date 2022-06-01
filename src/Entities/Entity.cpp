@@ -7,25 +7,36 @@ using Managers::GraphicsManager;
 
 Entity::Entity() :
 Ent(),
-sprite(sf::Vector2f(16, 16)),
+size(16.0f, 16.0f),
 position(0.0f, 0.0f),
-velocity(0.0f, 0.0f)
+velocity(0.0f, 0.0f),
+hitBox(sf::Vector2f(size.getX(), size.getY())),
+sprite()
 {
-    sprite.setFillColor(sf::Color::White);
-    sprite.setOrigin(8.0f, 8.0f);
+    init();
 }
 
-Entity::Entity(Vect pos, Vect vel) :
+Entity::Entity(Vect _size, Vect pos, Vect vel) :
 Ent(),
-sprite(sf::Vector2f(16, 16)),
+size(_size),
 position(pos),
-velocity(vel)
+velocity(vel),
+hitBox(sf::Vector2f(size.getX(), size.getY())),
+sprite()
 {
-    sprite.setFillColor(sf::Color::White);
-    sprite.setOrigin(8.0f, 8.0f);
+    init();
 }
 
 Entity::~Entity() {}
+
+void Entity::init()
+{
+    hitBox.setFillColor(sf::Color::Transparent);
+    hitBox.setOutlineColor(sf::Color::Red);
+    hitBox.setOutlineThickness(1.0f);
+    hitBox.setOrigin(size.getX() / 2, size.getY() / 2);
+    texture = NULL;
+}
 
 void Entity::draw()
 {
@@ -36,6 +47,7 @@ void Entity::draw()
 
     sf::RenderStates states(transform);
 
+    graphics->getWindow()->draw(hitBox, states);
     graphics->getWindow()->draw(sprite, states);
 }
 
@@ -51,8 +63,15 @@ void Entity::setPosition(const Vect p)
 
 Vect Entity::getSize()
 {
-    float x = sprite.getSize().x;
-    float y = sprite.getSize().y;
+    float x = hitBox.getSize().x;
+    float y = hitBox.getSize().y;
 
     return Vect(x, y);
 }
+
+void Entity::collide(Entity *e, Vect direction, float push)
+{
+    e->setPosition(e->getPosition() - (direction * push));
+}
+
+

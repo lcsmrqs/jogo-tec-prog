@@ -11,14 +11,16 @@ namespace Entities {
 
         public:
             Character();
-            Character(Vect pos, Vect vel);
+            Character(Vect size, Vect pos, Vect vel = Vect(0.0f, 0.0f));
             virtual ~Character();
-
-            virtual void run(float dt);
-            void collide(Entity *e, Vect direction) = 0;
 
             int getHealthPoints() const;
             void setHealthPoints(const int hp);
+
+            virtual void run(float dt);
+            virtual void collide(Entity *e, Vect direction, float push);
+
+            virtual void onCollision(Vect direction);
         };
     }
 }
