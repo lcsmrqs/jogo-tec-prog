@@ -1,1 +1,1 @@
-target_sources(resgate_emilia PUBLIC Level.cpp)
+target_sources(resgate_emilia PUBLIC Level.cpp Forest.cpp Checkpoint.cpp Cave.cpp)

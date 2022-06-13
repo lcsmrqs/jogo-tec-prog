@@ -1,1 +1,1 @@
-target_sources(resgate_emilia PUBLIC GraphicsManager.cpp EventManager.cpp CollisionManager.cpp)
+target_sources(resgate_emilia PUBLIC GraphicsManager.cpp EventManager.cpp CollisionManager.cpp EventListener.h)

@@ -1,22 +1,29 @@
 #pragma once
 
 #include "Character.h"
+#include "../../Managers/EventManager.h"
+
+using Managers::EventManager;
+using Key = EventManager::Key;
 
 namespace Entities {
     namespace Characters {
         class Player : public Character
         {
         private:
-            bool canJump;
-            void init();
+            bool canJump, stunned;
+            float stunnedTime;
+
+            Key moveRightKey, moveLeftKey, jumpKey;
 
         public:
-            Player();
-            Player(Vect _size, Vect pos, Vect vel = Vect(0.0f, 0.0f));
+            Player(const Vect pos = Vect(), Level *l = NULL, bool p2 = false);
             virtual ~Player();
 
             virtual void run(float dt);
-            void onCollision(Vect direction);
+
+            void setJump(const bool j);
+            void setStunned(const bool s);
         };
     }
 }

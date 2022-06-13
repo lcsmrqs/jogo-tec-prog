@@ -30,3 +30,7 @@ Entity* EntitiesList::operator[](int index)
 {
     return list[index];
 }
+
+void EntitiesList::removeEntity(Entity *e) {
+    list.removeElement(e);
+}

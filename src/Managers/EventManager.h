@@ -1,11 +1,15 @@
 #pragma once
 
 #include <map>
+#include <list>
 #include <SFML/Window/Keyboard.hpp>
 
 using std::map;
+using std::list;
 
 namespace Managers {
+    class EventListener;
+
     class EventManager
     {
     public:
@@ -17,21 +21,27 @@ namespace Managers {
             W = sf::Keyboard::W,
             A = sf::Keyboard::A,
             S = sf::Keyboard::S,
-            D = sf::Keyboard::D
+            D = sf::Keyboard::D,
+            P = sf::Keyboard::P,
+            Enter = sf::Keyboard::Enter
         };
 
     private:
         EventManager();
         static EventManager *instance;
         map<Key, bool> keys;
+        list<EventListener*> listeners;
 
     public:
 
         ~EventManager();
         static EventManager* getInstance();
 
-        void keyPressed(Key k);
-        void keyReleased(Key k);
+        void subscribe(EventListener *l);
+        void unsubscribe(EventListener *l);
+
+        void onKeyPressed(Key k);
+        void onKeyReleased(Key k);
 
         bool isKeyPressed(Key k);
     };

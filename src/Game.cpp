@@ -1,15 +1,29 @@
 #include "Game.h"
-#include <iostream>
+#include "States/State.h"
+#include "States/PlayingState.h"
+#include "States/MenuState.h"
 
-Game::Game() :
-level1()
+#include "Menus/MainMenu.h"
+
+using States::State;
+using States::PlayingState;
+using States::MenuState;
+using Menus::MainMenu;
+
+Game::Game()
 {
     graphicsManager = GraphicsManager::getInstance();
+
+    MenuState *initialState = new MenuState(new MainMenu);
+
+    stateStack = new StateStack(initialState);
+
     run();
 }
 
 Game::~Game()
 {
+    delete stateStack;
     delete graphicsManager;
 }
 
@@ -17,14 +31,20 @@ void Game::run()
 {
     float dt;
     while(graphicsManager->isWindowOpen())
-    {
+	{
         dt = graphicsManager->resetClock();
         graphicsManager->processEvents();
 
-        level1.run(dt);
+        stateStack->run(dt);
+
+        if(stateStack->empty())
+		{
+			graphicsManager->closeWindow();
+			break;
+		}
 
         graphicsManager->clearWindow();
-        level1.draw();
+        stateStack->draw();
 
         graphicsManager->draw();
     }

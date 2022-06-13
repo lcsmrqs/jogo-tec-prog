@@ -1,0 +1,1 @@
+target_sources(resgate_emilia PUBLIC Projectile.cpp Fireball.cpp)

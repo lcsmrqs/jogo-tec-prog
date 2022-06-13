@@ -7,6 +7,13 @@
 #include <SFML/Graphics/Sprite.hpp>
 
 using Math::Vect;
+using std::string;
+
+namespace Levels {
+	class Level;
+}
+
+using Levels::Level;
 
 namespace Entities {
     class Entity : public Ent
@@ -17,23 +24,29 @@ namespace Entities {
         Vect size;
         sf::RectangleShape hitBox;
         sf::Sprite sprite;
-        sf::Texture *texture;
 
-        void init();
+        Level *level;
+
+        void setTexture(const string s, const bool repeat = false);
+        void updateHitBox();
 
     public:
-        Entity();
-        Entity(Vect size, Vect pos, Vect vel = Vect(0.0f, 0.0f));
+        Entity(const Vect pos = Vect(), const Vect vel = Vect(), Level *l = NULL);
         virtual ~Entity();
 
         virtual void run(float dt) = 0;
         virtual void draw();
 
-        virtual void collide(Entity *e, Vect direction, float push);
-
         Vect getPosition() const;
         void setPosition(const Vect p);
 
-        Vect getSize();
+        Vect getVelocity() const;
+        void setVelocity(const Vect v);
+
+        Vect getSize() const;
+        void setSize(const Vect s);
+
+        Levels::Level* getLevel();
+        void setLevel(Levels::Level *l);
     };
 }

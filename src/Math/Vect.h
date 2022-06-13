@@ -16,14 +16,15 @@ namespace Math {
         const float getY() const;
         void setY(const float _y);
 
-        float getMagnitude();
-        Vect normalize();
+        float getMagnitude() const;
+        Vect normalize() const;
 
         Vect operator-(const Vect v);
-        Vect operator*(const float a);
         Vect operator+(Vect v);
         void operator+=(Vect v);
         void operator*=(const float a);
         void operator/=(const float a);
     };
+
+    const Vect operator*(const Vect v, const float a);
 }

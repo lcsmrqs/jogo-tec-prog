@@ -1,16 +1,16 @@
 #pragma once
 
 #include "Managers/GraphicsManager.h"
-#include "Levels/Level.h"
+#include "States/StateStack.h"
 
 using Managers::GraphicsManager;
-using Levels::Level;
+using States::StateStack;
 
 class Game
 {
 private:
     GraphicsManager *graphicsManager;
-    Level level1;
+    StateStack *stateStack;
 
 public:
     Game();

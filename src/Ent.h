@@ -11,7 +11,6 @@ public:
     virtual ~Ent() {}
 
     virtual void run(float dt) = 0;
-
     virtual void draw() = 0;
 
     const int getId() const { return id; }

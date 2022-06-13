@@ -10,17 +10,15 @@ namespace Entities {
             int healthPoints;
 
         public:
-            Character();
-            Character(Vect size, Vect pos, Vect vel = Vect(0.0f, 0.0f));
+            Character(const Vect pos = Vect(), Level *l = NULL);
             virtual ~Character();
 
             int getHealthPoints() const;
             void setHealthPoints(const int hp);
 
-            virtual void run(float dt);
-            virtual void collide(Entity *e, Vect direction, float push);
+            void operator--();
 
-            virtual void onCollision(Vect direction);
+            virtual void run(float dt);
         };
     }
 }

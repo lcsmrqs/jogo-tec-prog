@@ -16,7 +16,7 @@ namespace Lists {
         ~EntitiesList();
 
         bool addEntity(Entity *e);
-        // TODO: remove entity/index
+        void removeEntity(Entity *e);
         void clear();
         const int size() const;
         Entity* operator[](int index);

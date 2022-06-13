@@ -1,0 +1,1 @@
+target_sources(resgate_emilia PUBLIC State.cpp StateStack.cpp PlayingState.cpp MenuState.cpp)

@@ -1,0 +1,1 @@
+target_sources(resgate_emilia PUBLIC Menu.h Button.cpp MainMenu.cpp PlayerSelectionMenu.cpp PauseMenu.cpp)

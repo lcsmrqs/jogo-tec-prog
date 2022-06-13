@@ -1,41 +1,55 @@
-#include <iostream>
 #include "Entity.h"
 #include "../Managers/GraphicsManager.h"
+#include "../Levels/Level.h"
 
 using namespace Entities;
+
 using Managers::GraphicsManager;
+using Levels::Level;
 
-Entity::Entity() :
+Entity::Entity(const Vect pos, const Vect vel, Level *l) :
 Ent(),
-size(16.0f, 16.0f),
-position(0.0f, 0.0f),
-velocity(0.0f, 0.0f),
-hitBox(sf::Vector2f(size.getX(), size.getY())),
-sprite()
-{
-    init();
-}
-
-Entity::Entity(Vect _size, Vect pos, Vect vel) :
-Ent(),
-size(_size),
+size(),
 position(pos),
 velocity(vel),
-hitBox(sf::Vector2f(size.getX(), size.getY())),
-sprite()
-{
-    init();
-}
-
-Entity::~Entity() {}
-
-void Entity::init()
+hitBox(),
+sprite(),
+level(l)
 {
     hitBox.setFillColor(sf::Color::Transparent);
+/*
     hitBox.setOutlineColor(sf::Color::Red);
-    hitBox.setOutlineThickness(1.0f);
-    hitBox.setOrigin(size.getX() / 2, size.getY() / 2);
-    texture = NULL;
+    hitBox.setOutlineThickness(2);
+*/
+}
+
+Entity::~Entity()
+{
+    level = NULL;
+}
+
+void Entities::Entity::setTexture(const string s, const bool repeat)
+{
+    sf::Texture* texture = GraphicsManager::getInstance()->getTexture(s);
+    if (texture)
+    {
+        if(repeat)
+        {
+            texture->setRepeated(true);
+            sprite.setOrigin(size.getX() / 2, size.getY() / 2);
+            sprite.setTextureRect(sf::IntRect(0, 0, size.getX(), size.getY()));
+        }
+        else
+            sprite.setOrigin(texture->getSize().x / 2, texture->getSize().y / 2);
+
+        sprite.setTexture(*texture);
+    }
+}
+
+void Entities::Entity::updateHitBox()
+{
+    hitBox.setSize(sf::Vector2f(size.getX(), size.getY()));
+    hitBox.setOrigin(sf::Vector2f(size.getX() / 2, size.getY() / 2));
 }
 
 void Entity::draw()
@@ -61,7 +75,17 @@ void Entity::setPosition(const Vect p)
     position = p;
 }
 
-Vect Entity::getSize()
+Vect Entities::Entity::getVelocity() const
+{
+    return velocity;
+}
+
+void Entities::Entity::setVelocity(const Vect v)
+{
+    velocity = v;
+}
+
+Vect Entity::getSize() const
 {
     float x = hitBox.getSize().x;
     float y = hitBox.getSize().y;
@@ -69,9 +93,18 @@ Vect Entity::getSize()
     return Vect(x, y);
 }
 
-void Entity::collide(Entity *e, Vect direction, float push)
+void Entities::Entity::setSize(const Vect s)
 {
-    e->setPosition(e->getPosition() - (direction * push));
+    size = s;
+    updateHitBox();
 }
 
+Level* Entity::getLevel()
+{
+	return level;
+}
 
+void Entity::setLevel(Level *l)
+{
+	level = l;
+}

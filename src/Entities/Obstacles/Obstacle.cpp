@@ -1,32 +1,17 @@
 #include "Obstacle.h"
 
+#include "../../Managers/GraphicsManager.h"
+
+using Managers::GraphicsManager;
+
 using namespace Entities::Obstacles;
 
-Obstacle::Obstacle() :
-Entity()
+Obstacle::Obstacle(const Vect pos, Vect size) :
+Entity(pos)
 {
-    init();
+    setSize(size);
 }
 
-Obstacle::Obstacle(Vect _size, Vect pos, Vect vel) :
-Entity(_size, pos, vel)
-{
-    init();
-}
-
-void Obstacle::init()
-{
-    texture = new sf::Texture;
-    if(texture->loadFromFile("../../assets/obstacles/platform-mud.png"))
-    {
-        sprite.setTexture(*texture, true);
-        sprite.setOrigin(16, 16);
-    }
-}
-
-Obstacle::~Obstacle()
-{
-    delete texture;
-}
+Obstacle::~Obstacle() {}
 
 void Obstacle::run(float dt) {}

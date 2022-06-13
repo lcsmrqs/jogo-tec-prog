@@ -1,13 +1,17 @@
 #pragma once
 
-//#define WINDOW_WIDTH 284
-//#define WINDOW_HEIGHT 160
-
-#define WINDOW_WIDTH 800
-#define WINDOW_HEIGHT 450
+#define WINDOW_WIDTH 825
+#define WINDOW_HEIGHT 350
 
 #include "EventManager.h"
 #include <SFML/Graphics.hpp>
+#include <map>
+#include <string>
+#include "../Math/Vect.h"
+
+using std::map;
+using std::string;
+using Math::Vect;
 
 namespace Managers {
     class GraphicsManager
@@ -19,6 +23,13 @@ namespace Managers {
         sf::Clock clock;
         sf::RenderWindow window;
         EventManager *eventManager;
+
+        map<string, sf::Texture*> textures;
+        sf::Font* font;
+
+        sf::View view;
+
+        bool loadTexture(const string t);
 
     public:
         ~GraphicsManager();
@@ -32,5 +43,14 @@ namespace Managers {
         float resetClock();
 
         sf::RenderWindow* getWindow();
+
+        void closeWindow();
+
+        sf::Font* getFont();
+        sf::Texture* getTexture(const string t);
+
+        void updateView(const Vect v);
+        void resetView();
+        Vect getViewCenter();
     };
 }

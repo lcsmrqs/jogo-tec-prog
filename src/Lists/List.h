@@ -60,6 +60,51 @@ namespace Lists {
             return true;
         }
 
+        void removeElement(TL *e)
+        {
+            if(size() == 0)
+                return;
+
+            int i = 0;
+            bool found = false;
+            Element<TL> *predecessor, *toRemove = pFirst;
+
+            while(toRemove)
+            {
+                if(toRemove->getData() == e)
+                {
+                    found = true;
+                    break;
+                }
+
+                i++;
+                toRemove = toRemove->getNext();
+            }
+
+            if(!found)
+                return;
+
+            if(toRemove == pFirst)
+            {
+                pFirst = toRemove->getNext();
+                delete toRemove;
+            }
+            else
+            {
+                predecessor = pFirst;
+
+                while(--i)
+                    predecessor = predecessor->getNext();
+
+                if(toRemove == pLast)
+                    pLast = predecessor;
+
+                predecessor->setNext(toRemove->getNext());
+                delete toRemove;
+            }
+            _size--;
+        }
+
         bool addData(TL *d)
         {
             if(!d)
@@ -82,6 +127,7 @@ namespace Lists {
             }
 
             pFirst = pLast = NULL;
+            _size = 0;
         }
 
         const int size() const { return _size; }
